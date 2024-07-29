@@ -98,7 +98,7 @@ __attribute__((visibility("hidden")))         sets the function visibility to in
 __attribute__((visibility("default")))        sets the function visibility to "external linkage", the declaration will be visible from outside its module.
 __attribute__((visibility("internal")))       sets the function visibility to "hidden", but with additional processor specific semantics.
 __attribute__((visibility("protected")))      same like "default", but references within the module bind to the same definition in that module.
-__attribute__((warn_used_result))             informs the compiler to issue a warning if the function does not use the return value.
+__attribute__((warn_unused_result))             informs the compiler to issue a warning if the function does not use the return value.
 __attribute__((weak))                         makes the declaration of an external symbol into a weak symbol, allowing it to be overridden by a stronger symbol.
                                               the overriding symbol must have the same type as the weak symbol, if it's a variable declaration, it must 
                                               also have the same size and alignment as the weak symbol, the attribute is supported only on ELF targets,

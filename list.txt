@@ -1,0 +1,155 @@
+--------------------------------------------------------------------------------------------------
+|           ATTRIBUTE                        |         DESCRIPTION                      
+--------------------------------------------------------------------------------------------------
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+
+--------------------------------------------------------------------------------------------------
+                                           FUNCTION ATTRIBUTES 
+--------------------------------------------------------------------------------------------------
+
+
+ __attribute__((access(read_only, 1)))        give read only access(read_only) to first ptr argument(1)
+ __attribute__((access(read_write, 1)))       give read and write access to first ptr argument
+ __attribute__((access(write_only, 1)))       give write only access to first ptr argument
+ __attribute__((access(write_only, 1),        give write only access to first ptr argument
+                access(read_only, 2)),        give read only access to ptr second
+                access(read_write, 3))        give read write access to ptr third
+__attribute__((aligned(2)))                   specify a minimum alignment(2) for the first instruction 
+                                              of the function in bytes, must be integer constant power of 2.                                             
+__attribute__((alloc_size(2)))                applies to a function that returns a pointer and has at least 1
+                                              argument of integer or enumerated type. Indicates that the return
+                                              pointer points to memory whos size is given by the argument at pos(2).
+__attribute__((always_inline))                inlines a function, for functions declared as inline, this will inline 
+                                              the function independent of any restrictions.
+__attribute__((cold))                         this informs the compiler that the function is unlikely to be executed.
+                                              The function is optimized for size instead of speed. When use cold the
+                                              function marsk every branch prediction mechanism as unlikely to further 
+                                              improve performance.
+__attribute__((const))                        the const attribute prohibits a function from reading objects that
+                                              affect its return value between successive invocations. const and pure
+                                              should not be declared at the same time because they contradict each other.
+                                              Const functions should not take a pointer as argument.
+__attribute__((deprecated("message...")))     indicated that a function is deprecated, will issues a warning if executed,
+                                              takes an optional argument for the message to display. Useful for situations 
+                                              where a function is likely to be removed in future.
+__attribute__((expected_throw))               indicates the function is likely to raise or propagate an exception
+                                              instead of return, terminate the program or loop forever. Most likely ignored by compiler.
+__attribute__((externally_visible))           this attribute attaches to a global variable or function, so the object remains visible outside the compilation.
+__attribute__((flatten))                      in general when inlining a function is limited, this attribute when used inlines every call 
+                                              in the function. Functions marked with "noinline" called within the function signed with this attribute 
+                                              will not be affected by "flatten" attribute.
+__attribute__((hot))                          indicates that the function is likely to be executed more frequently.
+                                              the compiler applies more aggressive optimization for this attribute, and 
+                                              in many targets it is placed into special subsection of the "text" section,
+                                              so all hot functions appear close together, improving locality.
+__attribute__((leaf))                         indicates that a function doesn't make external calls within the current compilation unit,
+                                              except for "returns", and "exception handling". Helf optimize data flow analysis. 
+                                              It may still invoke signal handlers or resolver functions.
+__attribute__((malloc))                       indicates that a function returns a pointer that is not aliased by another pointer, 
+                                              it also assumes that the function returns non-null in most cases.
+__attribute__((no_icf))                       prevents a function from being merged with another semantically equivalent function.
+__attribute__((no_sanitize_address))          informs the compiler to skip memory access instrumentation for a function when using -fsanitize=address compiler option. 
+                                              when using -fsanitize=address the process adds additional code to a program to monitor and track
+                                              memory errors like buffer overflow, use of uninitialized memory or access to freed memory(use-after-free).
+__attribute__((no_sanitize_thread))           informs the compiler that it should not instrument memory access in the function when compiling with -fsanitize=thread option.
+__attribute__((no_sanitize_undefined))        informs the compiler that it should not check for undefined behavior in the function when compiling with -fsanitize=undefined
+__attribute__((no_sanitize_coverage))         informs the compiler that it should not do coverage-guided fuzzing code instrumentation(-fsanitize-coverage).
+__attribute__((no_split_stack))               if -fslit-stack is used, the compiler adds extra code to each function. This extra code checks if the function needs 
+                                              more stack space than available and, if so, "splits" the stack to allocate more space,
+                                              this helps preventing stack overflows. If attribute no_split_stack is used, the extra code added by -fsplit-stack is skipped.
+__attribute__((no_stack_limit))               locally overrides the -fstack-limit-register and -fstack-limit-symbol command line options. will disable stack limit checking for the function it applies to.
+__attribute__((no_stack_protector))           prevents stack protection code for the function.
+__attribute__((no_clone))                     prevents a function from being copied and optimized by the compiler, even is it's a constant.
+                                              no_clone tells the compiler to NOT create specialized versions of the function even if
+                                              called with constant arguments, this will avoid accidental changes to the function's behavior due to optimization.
+__attribute__((no_inline))                    prevents a function from being considered for inlining. Also disables some other interprocedural optimizations(not all).
+__attribute__((noipa))                        globally disables interprocedural optimizations between a function and its callers, as if the function's body is unknown.
+                                              implies that attributes like noinline, no_clone, and no_icf are used. The goal of the attributes 
+                                              is to prevent any global optimization that rely on analyzing the function and its callers together.
+__attribute__((nonnull(1, 2)))                applies to functions that take at least one argument of pointer type, indicating the the referenced
+                                              arguments must be non-null pointers. Takes an optional index argument/s(1, 2) in this case, if no 
+                                              argument index is supplied to the attribute, all arguments are marked as non-null.             
+__attribute__((noreturn))                     informs the compiler that the function will likely not return, maybe due to call of exit() or abort().                        
+__attribute__((nothrow))                      informs the compiler that the function does not throw exceptions.
+__attribute__((optimize("LEVEL")))            informs the compiler that it should not optimize the function, "0" means no optimization. should be used for debugging, not suggested for production code.
+__attribute__((pure))                         indicates that a function has no side effects and only returns a value based on its inputs.
+                                              this attribute allows the compiler to optimize repeated calls with the same arguments, but ensures that
+                                              a function does not modify external state, does not read volatile memory and does not have infinite loops.
+__attribute__((retain))                       for ELF targets that support GNU or FreeBSD OSABYs, this attribute will save the function from linker garbage collection.
+                                              for functions that have not been placed in specific sections with "section" attribute, will be placed in new unique sections.  
+__attribute__((returns_nonnull))              specifies that a function return value should not be a null value.
+__attribute__((returns_twice))                informs the compiler that a function will return more than one time.
+__attribute__((section("section_name")))      normally the compiler places the code in the "text" section, this attribute section informs 
+                                              the compiler to place the code in a specific section.  
+__attribute__((sentinel(1)))                  indicates that a NULL argument is expected in a variadic function, optional position specification, if no position is supplied, defaults to 0.
+__attribute__((stack_protect))                adds stack protection code to the function if flags -fstack-protector, -fstack-protector-string or -fstack-protector-explicit are set.
+__attribute__((__symver__("foo@symbol_1")))   creates a versioned symbol in ELF targets, this attribute ensures that the symbol is defined and exported with default visibility.        
+__attribute__((tainted_args))                 indicates that a function is vulnerable to input validation issues, such as system calls in an operating system kernel.
+                                              this attribute tells the analyzer to be more careful when analyzing the function, and issue warning for potential security vulnerabilities, 
+                                              works with function declarations or field declarations with function pointers.
+__attribute__((target("arch=core2")))         specifies that a function should be compiled with different target options.
+                                              this attribute allows to compile with a different ISA(instruction-set-architecture) and specify target-specific options for a function.
+__attribute__((unused))                       informs the compiler that the function is likely to be unused, this does not issue a warning.
+__attribute__((used))                         informs the compiler that the code should be emitted for the function even if the function appears to NOT be referenced anywhere.
+
+__attribute__((visibility("mode")))           applies to variables, types, functions and namespaces.
+__attribute__((visibility("hidden")))         sets the function visibility to internal linkage only, the function declaration will only be visible from within the same shared object.
+__attribute__((visibility("default")))        sets the function visibility to "external linkage", the declaration will be visible from outside its module.
+__attribute__((visibility("internal")))       sets the function visibility to "hidden", but with additional processor specific semantics.
+__attribute__((visibility("protected")))      same like "default", but references within the module bind to the same definition in that module.
+__attribute__((warn_used_result))             informs the compiler to issue a warning if the function does not use the return value.
+__attribute__((weak))                         makes the declaration of an external symbol into a weak symbol, allowing it to be overridden by a stronger symbol.
+                                              the overriding symbol must have the same type as the weak symbol, if it's a variable declaration, it must 
+                                              also have the same size and alignment as the weak symbol, the attribute is supported only on ELF targets,
+                                              a.out targets when using GNU assembler and linker.                                             
+__attribute__((zero_call_used_regs("mode")))  zeros a subset of call-used registers at function return to improve security.
+                                              this attribute prevents return-oriented-programming (ROP) attacks and information leakage through registers.
+                                              compiler flag "-fzero-call-used-regs" must be set or this attribute will be ignored.
+__attribute__((zero_call_used_regs("skip")))  doesn't zero any register.
+__attribute__((zero_call_used_regs("used")))  zeros only used call-used registers.
+__attribute__((zero_call_used_regs("all")))   zeros all call-used registers.
+__attribute__((zero_call_used_regs("leafy"))) acts like used for "leaf" functions and "all"for non-leaf functions. 
+
+
+
+---------------------------------------------------------------------------------------------------
+                           VARIABLE ATTRIBUTES 
+---------------------------------------------------------------------------------------------------
+
+__attribute__((unused))                       indicates that a variable is unlikely to be used.
+__attribute__((deprecated))                   indicates that a variable is deprecated and will issue a warning if used.
+__attribute__((mode(__word__)))               indicates that the variable is a one-word integer.
+__attribute__((mode(__byte__)))               indicates that the variable is a one-byte integer.
+__attribute__((mode(__pointer__)))            indicates that the variable is a pointer type.
+__attribute__((packed))                       indicates that the variable should have the smallest possible alignment.
+__attribute__((persistent))                   indicates that the variable will not be initialized by C runtime startup code
+                                              but will be initialized the program loader. Non-volatile, writable memory required.
+__attribute__((section("SECTION")))           indicates that the variable lives in the "SECTION" section. Generally compiler uses sections like ".bss" or ".data".
+__attribute__((strict_flex_array(1)))         least strict level: controls trailing array filed of a structure. indicates when to treat trailing array field structure as flexible or not.
+__attribute__((strict_flex_array(2)))         avg strict level: controls trailing array filed of a structure. indicates when to treat trailing array field structure as flexible or not.
+__attribute__((strict_flex_array(3)))         most strict level: controls trailing array filed of a structure. indicates when to treat trailing array field structure as flexible or not.
+__attribute__((tls_model("global-dynamic")))  sets thread-local storage model to variables of __thread type
+__attribute__((tls_model("local-dynamic")))
+__attribute__((tls_model("initial-exec")))
+__attribute__((tls_model("local-exec")))
+__attribute__((used))                         when applied to variables with static storage, means that the variable must be emitted even when not referenced.
+                                              when applied to static data member of a class template, the attribute also means that the member 
+                                              is instantiated when the class itself is instantiated.
+__attribute__((uninitialized))                means that a variable should not be automatically initialized by the compiler when
+                                              the option "-ftrivial-auto-var-init" is present. If "-ftrivial-auto-var-init" option 
+                                              is set, all automatic variables that do not have explicit initializers will be initialized 
+                                              by the compiler, setting "uninitialized" attribute will tell the compiler to not initialize that variable.
+
+__attribute__((vector_size(16)))              specifies the vector size for the type of the declared variable, measure in bytes. The 
+                                              bytes argument must be a positive power of 2 multiple ot the base type size(the type to 
+                                              which is applies is known as the base type). Aggregates are not allowed.
+
+__attribute__((visibility("hidden)))          indicates that the entity has a new form of linkage, aka "hidden linkege". Two
+                                              declarations of an object refer to the same object if they are in the same shared object.
+__attribute__((visibility("internal")))       is like "hidden" attribute value, but with additional processor specific semantics.
+                                              indicates that entity cannot be called from outside the module.
+__attribute__((visibility("protected")))      indicates that the entity cannot be overridden by another module.
+__attribute__((visibility("default")))        indicates that the declaration is visible to other modules.
+__attribute__((warn_if_not_aligned(16)))      specifies the threshold(eg: 16 bytes) for a structure field, measured in bytes. if the bytes
+                                              field is aligned below the threshold, a warning is issued.
